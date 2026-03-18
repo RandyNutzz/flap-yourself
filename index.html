@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flappy Me</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- ══ MENU ══ -->
+    <div class="screen" id="menuScreen">
+        <div class="wrap">
+
+            <!-- Header -->
+            <div class="top-strip">
+                <div class="bird-avatar" id="avatarWrap">
+                    <span id="avatarEmoji">🐦</span>
+                    <canvas id="avatarCanvas" width="56" height="56"></canvas>
+                </div>
+                <div class="top-text">
+                    <div class="top-title">Flappy Me</div>
+                    <div class="top-sub" id="topSub">Upload your photo to become the bird</div>
+                </div>
+            </div>
+
+            <!-- Photo -->
+            <div class="block">
+                <div class="row-label">Your Bird Photo</div>
+                <div class="photo-drop" id="photoDrop" onclick="document.getElementById('photoInput').click()">
+                    <div class="pd-thumb" id="pdThumb">
+                        <span id="pdEmoji">📷</span>
+                        <canvas id="pdCanvas" width="72" height="72"></canvas>
+                    </div>
+                    <div class="pd-info">
+                        <div class="pd-title" id="pdTitle">Choose a photo</div>
+                        <div class="pd-hint">Your face becomes the bird · JPG or PNG<br>Drag &amp; drop works too</div>
+                    </div>
+                </div>
+                <input type="file" id="photoInput" accept="image/*" style="display:none">
+                <div class="pd-skip">Optional — skip to play with the default bird</div>
+            </div>
+
+            <!-- Theme -->
+            <div class="block">
+                <div class="row-label">Theme</div>
+                <div class="theme-row">
+                    <div class="th on" data-theme="pixel" onclick="pickTheme(this,'pixel')">
+                        <div class="ck">✔</div>
+                        <div class="th-ico">🕹️</div>
+                        <div class="th-sw" style="background:linear-gradient(90deg,#1a0a2e,#0f3460)"></div>
+                        <div class="th-nm">Pixel</div>
+                    </div>
+                    <div class="th" data-theme="cyberpunk" onclick="pickTheme(this,'cyberpunk')">
+                        <div class="ck">✔</div>
+                        <div class="th-ico">⚡</div>
+                        <div class="th-sw" style="background:linear-gradient(90deg,#0a0015,#ff00ff)"></div>
+                        <div class="th-nm">Cyberpunk</div>
+                    </div>
+                    <div class="th" data-theme="space" onclick="pickTheme(this,'space')">
+                        <div class="ck">✔</div>
+                        <div class="th-ico">🚀</div>
+                        <div class="th-sw" style="background:linear-gradient(90deg,#000008,#6633ff)"></div>
+                        <div class="th-nm">Space</div>
+                    </div>
+                    <div class="th" data-theme="forest" onclick="pickTheme(this,'forest')">
+                        <div class="ck">✔</div>
+                        <div class="th-ico">🌿</div>
+                        <div class="th-sw" style="background:linear-gradient(90deg,#0d1f0d,#4a7c2a)"></div>
+                        <div class="th-nm">Forest</div>
+                    </div>
+                    <div class="th" data-theme="ocean" onclick="pickTheme(this,'ocean')">
+                        <div class="ck">✔</div>
+                        <div class="th-ico">🌊</div>
+                        <div class="th-sw" style="background:linear-gradient(90deg,#000d1a,#0099ff)"></div>
+                        <div class="th-nm">Ocean</div>
+                    </div>
+                    <div class="th" data-theme="sunset" onclick="pickTheme(this,'sunset')">
+                        <div class="ck">✔</div>
+                        <div class="th-ico">🌅</div>
+                        <div class="th-sw" style="background:linear-gradient(90deg,#1a0505,#ff6600)"></div>
+                        <div class="th-nm">Sunset</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Music -->
+            <div class="block">
+                <div class="row-label">Background Music</div>
+                <div class="tab-row">
+                    <button class="tab on" id="tabMp3" onclick="switchTab('mp3')">📁 Upload MP3</button>
+                    <button class="tab" id="tabSc" onclick="switchTab('sc')">☁ SoundCloud</button>
+                </div>
+
+                <!-- MP3 -->
+                <div class="panel show" id="pMp3">
+                    <div class="mp3-drop" id="mp3Drop" onclick="document.getElementById('mp3In').click()">
+                        <div class="mp3-drop-ico">🎵</div>
+                        <div class="mp3-drop-txt" id="mp3Txt">Click or drag an audio file here</div>
+                        <div class="mp3-drop-sub">MP3 · WAV · OGG · M4A — works offline</div>
+                    </div>
+                    <input type="file" id="mp3In" accept="audio/*" style="display:none">
+                    <audio id="mp3Audio" loop></audio>
+                    <div class="player-bar" id="mp3Bar">
+                        <button class="pb-btn" id="mp3Btn" onclick="toggleMp3()">▶</button>
+                        <div class="pb-track">
+                            <div class="pb-name empty" id="mp3Name">No file</div>
+                            <input type="range" id="mp3Vol" min="0" max="1" step=".01" value=".6"
+                                oninput="mp3Audio.volume=+this.value">
+                        </div>
+                        <button class="pb-loop on" id="mp3Loop" onclick="toggleLoop()" title="Loop">↺</button>
+                    </div>
+                </div>
+
+                <!-- SoundCloud -->
+                <div class="panel" id="pSc">
+                    <div class="yt-row">
+                        <input class="yt-input" id="scUrl" placeholder="https://soundcloud.com/artist/track-name">
+                        <button class="yt-btn" style="background:#ff5500" onclick="loadSC()">▶ Load</button>
+                    </div>
+                    <div class="yt-note" id="scNote">Paste any SoundCloud track or playlist URL above</div>
+                    <div id="scPlayerWrap"
+                        style="display:none;border-radius:8px;overflow:hidden;border:1.5px solid var(--line);">
+                        <iframe id="scFrame" width="100%" height="80" scrolling="no" frameborder="no" allow="autoplay"
+                            style="display:block;" src=""></iframe>
+                    </div>
+                    <div class="player-bar" id="scBar" style="display:none;">
+                        <button class="pb-btn" id="scBtn" onclick="toggleSC()" style="background:#ff5500">▶</button>
+                        <div class="pb-track">
+                            <div class="pb-name" id="scName">SoundCloud</div>
+                            <input type="range" id="scVol" min="0" max="100" step="1" value="60"
+                                oninput="setSCVol(+this.value)">
+                        </div>
+                    </div>
+                    <div class="yt-caveat">
+                        💡 Go to <strong style="color:var(--txt)">soundcloud.com</strong>, find any free track, copy the
+                        URL and
+                        paste above. Searches like "lofi free", "chillhop", "NCS" work great.
+                    </div>
+                </div>
+            </div>
+
+            <!-- SFX -->
+            <div class="block">
+                <div class="row-label">Sound Effects</div>
+                <div class="sfx-row">
+                    <div>
+                        <div class="sfx-label">Game sounds</div>
+                        <div class="sfx-sub">Flap · score · crash</div>
+                    </div>
+                    <div class="switch">
+                        <span class="sw-lbl on" id="sfxLbl">On</span>
+                        <div class="sw-track on" id="sfxSw" onclick="toggleSFX()"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Play -->
+            <div class="block play-block">
+                <button id="playBtn">▶ &nbsp; Play Now</button>
+                <div class="play-sub">Space · tap · click to flap &nbsp;·&nbsp; avoid the pipes</div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ══ GAME ══ -->
+    <div class="screen off" id="gameScreen">
+        <div class="gbar">
+            <div>
+                <div class="g-score">⭐ <span id="scoreTxt">0</span></div>
+                <div class="g-best">best <span id="bestTxt">0</span></div>
+            </div>
+            <div class="g-music" id="gMusic">
+                <button class="gm-btn" id="gPlayBtn" onclick="gToggle()">⏸</button>
+                <span class="gm-name" id="gName">—</span>
+                <input type="range" class="gm-vol" id="gVol" min="0" max="1" step=".01" value=".6"
+                    oninput="gSetVol(+this.value)">
+            </div>
+            <div class="g-btns">
+                <button class="g-btn" id="sfxMuteBtn" onclick="toggleMuteSFX()">🔊</button>
+                <button class="g-btn red" onclick="backToMenu()">← Menu</button>
+            </div>
+        </div>
+        <canvas id="gameCanvas" width="400" height="500"></canvas>
+    </div>
+
+    <!-- Scripts loaded in order: sound → music → menu → game -->
+    <script src="sound.js"></script>
+    <script src="music.js"></script>
+    <script src="menu.js"></script>
+    <script src="game.js"></script>
+
+</body>
+
+</html>
