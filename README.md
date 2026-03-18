@@ -1,33 +1,21 @@
-# Flap Yourself
+# Flap Yourself 🐦
 
-A personalized Flappy Bird game where **you** are the bird.
-Upload a selfie, pick a theme, add music and fly!
-
-Built with vanilla HTML, CSS and JavaScript — no frameworks, no installs.
-Just open and play.
+**[▶ Click here to Play the Game!](https://RandyNutzz.github.io/flap-yourself/)**
 
 ---
 
-## 🎮 How to Play
-
-- **Click / Tap / Space** to flap
-- Avoid the pipes and the ground
-- Every pipe you pass = 1 point
-- Beat your best score!
-
----
+"Flap Yourself" is a fun, customizable Flappy Bird clone where you can upload your own photo to become the bird!
 
 ## ✨ Features
+- **📸 Custom Bird**: Upload any JPG or PNG to see your face in the game.
+- **🎨 6 Themes**: Choose from Pixel, Cyberpunk, Space, Forest, Ocean, and Sunset.
+- **🎵 Music**: Upload your own MP3s or load tracks from SoundCloud.
+- **🔊 SFX**: Retro-style sound effects generated via Web Audio API.
 
-### 📸 Custom Bird
-Upload any photo of yourself and it becomes the bird you fly as.
-Your face gets cropped into a circle and replaces the default bird.
+## 🎮 How to Play
+- **Space**, **Arrow Up**, or **Click/Tap** to flap.
+- Avoid the pipes and the ground.
+- Score points by passing through the gaps.
 
-### 🎨 6 Themes
-Choose the world you want to fly through:
-
-
- 🕹️ Pixel | Retro night sky with pixel stars 
- ⚡ Cyberpunk | Neon city grid with glowing buildings 
- 🚀 Space | Deep space with nebula and planets 
- 🌿 Forest | Dark
+## 🚀 Running Locally
+Just open `index.html` in any modern web browser. No server required!
